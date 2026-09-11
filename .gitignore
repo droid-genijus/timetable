@@ -1,5 +1,6 @@
 /vendor/
 /public/config/config.php
+/public/config/error.log
 .env
 .DS_Store
 /.idea/
