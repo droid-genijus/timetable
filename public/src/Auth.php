@@ -10,10 +10,13 @@ final class Auth
      */
     public static function attempt(string $usernameOrEmail, string $password): bool
     {
+        // Native MySQL prepared statements (PDO::ATTR_EMULATE_PREPARES=false in
+        // Database::connection()) reject binding one named parameter to two
+        // placeholders, so :identifier needs a distinct name per occurrence.
         $stmt = Database::connection()->prepare(
-            'SELECT id, username, password_hash FROM users WHERE username = :identifier OR email = :identifier LIMIT 1'
+            'SELECT id, username, password_hash FROM users WHERE username = :identifier1 OR email = :identifier2 LIMIT 1'
         );
-        $stmt->execute(['identifier' => $usernameOrEmail]);
+        $stmt->execute(['identifier1' => $usernameOrEmail, 'identifier2' => $usernameOrEmail]);
         $user = $stmt->fetch();
 
         if ($user === false || !password_verify($password, $user['password_hash'])) {
