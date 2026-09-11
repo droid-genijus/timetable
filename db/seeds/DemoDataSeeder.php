@@ -12,13 +12,18 @@ final class DemoDataSeeder extends AbstractSeed
 {
     public function run(): void
     {
-        // schedule_entries.user_id has a foreign key to users, so it must be
-        // truncated first or MySQL refuses to truncate the referenced table.
+        // MySQL refuses to TRUNCATE a table referenced by a FOREIGN KEY
+        // constraint regardless of row count or truncate order, so FK checks
+        // must be disabled around both truncates.
+        $this->execute('SET FOREIGN_KEY_CHECKS=0');
+
         $entriesTable = $this->table('schedule_entries');
         $entriesTable->truncate();
 
         $usersTable = $this->table('users');
         $usersTable->truncate();
+
+        $this->execute('SET FOREIGN_KEY_CHECKS=1');
 
         $usersTable->insert([
             'username' => 'demo',
