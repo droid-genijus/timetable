@@ -12,6 +12,11 @@ final class DemoDataSeeder extends AbstractSeed
 {
     public function run(): void
     {
+        // schedule_entries.user_id has a foreign key to users, so it must be
+        // truncated first or MySQL refuses to truncate the referenced table.
+        $entriesTable = $this->table('schedule_entries');
+        $entriesTable->truncate();
+
         $usersTable = $this->table('users');
         $usersTable->truncate();
 
@@ -22,9 +27,6 @@ final class DemoDataSeeder extends AbstractSeed
         ])->saveData();
 
         $userId = (int) $this->getAdapter()->getConnection()->lastInsertId();
-
-        $entriesTable = $this->table('schedule_entries');
-        $entriesTable->truncate();
 
         $lessonTimes = [
             ['08:00', '08:45'],
