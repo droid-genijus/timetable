@@ -1,0 +1,439 @@
+
+        body {
+            background: linear-gradient(135deg, #24272eff, #454299ff, #3e165cff);
+            font-family: Arial, sans-serif;
+            color: white;
+            min-height: 100vh;
+                        margin: 0;
+                        padding: 16px;
+                        box-sizing: border-box;
+                        overflow-x: hidden;
+        }
+
+
+        /* Viršutinė juosta */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .topbar-info {
+            margin: 0;
+        }
+
+        .topbar-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topbar-user a.button {
+            text-decoration: none;
+            display: inline-block;
+        }
+
+
+        /* Būsenos pranešimas (klaida / kraunama / tuščia) */
+
+        .schedule-status {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 16px 0;
+        }
+
+
+        /* Lentelė */
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+                        width: 100%;
+                        min-width: 760px;
+            margin: 30px auto;
+
+            border-radius: 20px;
+            overflow: hidden;
+
+            box-shadow:
+                    0 0 20px rgba(139,92,246,0.8),
+                    0 0 40px rgba(59,130,246,0.5);
+
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+                .timetable-wrapper {
+                        width: 100%;
+                        overflow-x: auto;
+                        -webkit-overflow-scrolling: touch;
+                        border-radius: 20px;
+                }
+
+                .mobile-schedule {
+                        display: none;
+                }
+
+
+        /* Visi langeliai */
+
+        td {
+            padding: 15px;
+            text-align: center;
+
+            border: 1px solid rgba(255,255,255,0.15);
+
+            transition:
+                    transform 0.2s,
+                    background 0.3s,
+                    box-shadow 0.3s;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            rgba(79,70,229,0.8),
+                            rgba(147,51,234,0.8)
+                    );
+
+        }
+
+        td .meta {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        td.empty-slot {
+            opacity: 0.35;
+        }
+
+
+        /* Pirma eilutė */
+
+        tr:first-child td {
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            #06b6d4,
+                            #3b82f6,
+                            #8b5cf6
+                    );
+
+            font-weight:bold;
+        }
+
+
+        /* Antra eilutė */
+
+        tr:nth-child(2) td {
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            #7c3aed,
+                            #ec4899
+                    );
+
+            font-weight:bold;
+        }
+
+
+
+        /* Užvedus pelę */
+
+        td:hover {
+
+            transform: scale(1.05);
+
+            box-shadow:
+                    0 0 15px white;
+
+        }
+
+
+
+        /* Pertraukos eilutė */
+
+        tr.break-row td {
+            padding: 8px 15px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: rgba(255,255,255,0.75);
+            background: rgba(255,255,255,0.06);
+            border-top: 1px dashed rgba(255,255,255,0.3);
+            border-bottom: 1px dashed rgba(255,255,255,0.3);
+        }
+
+        tr.break-row td:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+
+        /* Pamokų pabaigos eilutė */
+
+        tr.end-row td {
+            font-weight: 600;
+            background:
+                    linear-gradient(
+                            135deg,
+                            rgba(16,185,129,0.55),
+                            rgba(6,182,212,0.35)
+                    );
+            border-top: 2px solid rgba(255,255,255,0.4);
+        }
+
+        tr.end-row td:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+
+        /* Dabartinė diena */
+
+        .today {
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #2563eb,
+                            #22d3ee
+                    ) !important;
+
+            box-shadow:
+                    inset 0 0 20px #ffffff;
+
+        }
+
+
+
+        /* Dabartinė pamoka */
+
+        .current {
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #ffffff,
+                            #93c5fd
+                    ) !important;
+
+
+            color:black;
+
+            font-weight:bold;
+
+
+            animation:pulse 1s infinite;
+
+
+            box-shadow:
+                    0 0 15px white,
+                    0 0 30px #38bdf8,
+                    0 0 50px #818cf8;
+
+        }
+
+
+        /* Švytėjimo animacija */
+
+        @keyframes pulse {
+
+            0% {
+                transform:scale(1);
+            }
+
+
+            50% {
+                transform:scale(1.06);
+            }
+
+
+            100% {
+                transform:scale(1);
+            }
+
+        }
+
+
+        /* Mygtukas */
+
+        .button {
+
+            padding:8px 15px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #3b82f6,
+                            #8b5cf6
+                    );
+
+            color:white;
+
+            border:none;
+
+            border-radius:12px;
+
+            cursor:pointer;
+            font-size: 14px;
+
+
+            box-shadow:
+                    0 0 15px #6366f1;
+
+        }
+        .button:active {
+            transform: scale(0.85);
+        }
+
+        .button:hover {
+
+            box-shadow:
+                    0 0 25px #22d3ee;
+        }
+
+
+        /* Prisijungimo forma */
+
+        .login-body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 340px;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 20px;
+            padding: 28px 24px;
+            box-shadow:
+                    0 0 20px rgba(139,92,246,0.8),
+                    0 0 40px rgba(59,130,246,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .login-card h1 {
+            margin: 0 0 10px;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        .login-card label {
+            font-size: 13px;
+            opacity: 0.85;
+        }
+
+        .login-card input {
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.25);
+            color: white;
+            font-size: 15px;
+        }
+
+        .login-card input:focus {
+            outline: 2px solid #22d3ee;
+        }
+
+        .login-card .button {
+            margin-top: 8px;
+        }
+
+        .login-error {
+            background: rgba(239,68,68,0.25);
+            border: 1px solid rgba(239,68,68,0.6);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 13px;
+            margin: 0;
+        }
+
+                @media (max-width: 600px) {
+                        body {
+                                padding: 12px;
+                        }
+
+                        .topbar .button {
+                                padding: 10px 16px;
+                                font-size: 16px;
+                        }
+
+                        body > p {
+                                margin: 18px 0;
+                                font-size: 15px;
+                        }
+
+                        .timetable-wrapper {
+                                display: none;
+                        }
+
+                        .mobile-schedule {
+                                display: block;
+                        }
+
+                        .mobile-day {
+                                margin: 20px 0;
+                        }
+
+                        .mobile-day h2 {
+                                margin: 0;
+                                padding: 12px 14px;
+                                background: linear-gradient(90deg, #06b6d4, #3b82f6);
+                                border-radius: 14px 14px 0 0;
+                                font-size: 18px;
+                        }
+
+                        .mobile-day table {
+                                min-width: 0;
+                                width: 100%;
+                                margin: 0;
+                                border-radius: 0 0 14px 14px;
+                                font-size: 14px;
+                        }
+
+                        .mobile-day th,
+                        .mobile-day td {
+                                padding: 12px 8px;
+                                white-space: normal;
+                        }
+
+                        .mobile-day th {
+                                background: #7c3aed;
+                                text-align: center;
+                        }
+
+                        .mobile-day tbody tr:first-child td,
+                        .mobile-day tbody tr:nth-child(2) td {
+                                background: linear-gradient(
+                                                135deg,
+                                                rgba(79,70,229,0.8),
+                                                rgba(147,51,234,0.8)
+                                );
+                                font-weight: normal;
+                        }
+
+                        .mobile-day td:first-child {
+                                width: 12%;
+                        }
+
+                        .mobile-day td:nth-child(2) {
+                                width: 32%;
+                        }
+
+                        .mobile-day td:last-child {
+                                width: 56%;
+                        }
+                }

@@ -1,0 +1,58 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo_mysql
+
+      - name: Install PHP dependencies
+        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Run database migrations
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: vendor/bin/phinx migrate -e production
+
+      - name: Generate production config
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          sed \
+            -e "s/%%APP_ENV%%/production/g" \
+            -e "s/%%DB_HOST%%/${DB_HOST}/g" \
+            -e "s/%%DB_PORT%%/3306/g" \
+            -e "s/%%DB_DATABASE%%/${DB_DATABASE}/g" \
+            -e "s/%%DB_USER%%/${DB_USER}/g" \
+            -e "s/%%DB_PASSWORD%%/${DB_PASSWORD}/g" \
+            public/config/config.php.dist > public/config/config.php
+
+      - name: Deploy via FTP
+        uses: SamKirkland/[email protected]
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./public/
+          server-dir: /public_html/timetable/
+          exclude: |
+            **/.git*
+            **/.git*/**

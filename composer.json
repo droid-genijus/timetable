@@ -1,0 +1,13 @@
+{
+    "name": "taurius/timetable",
+    "description": "Class schedule (timetable) web application",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.0",
+        "robmorgan/phinx": "^0.16"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

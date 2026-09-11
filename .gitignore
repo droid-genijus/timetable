@@ -1,0 +1,6 @@
+/vendor/
+/public/config/config.php
+.env
+.DS_Store
+/.idea/
+*.iml
